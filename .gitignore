@@ -1,0 +1,41 @@
+# Visual Studio
+.vs/
+*.VC.db
+*.VC.opendb
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build output
+[Dd]ebug/
+[Rr]elease/
+x64/
+[Bb]in/
+[Oo]bj/
+
+# Project-local MSVC intermediates
+*.obj
+*.ipdb
+*.iobj
+*.idb
+*.ilk
+*.pdb
+*.tlog
+*.lastbuildstate
+*.recipe
+*.log
+
+# Executables and runtime output
+*.exe
+*.dll
+
+# Optional CMake/Ninja artifacts if added later
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
+build/
+.ninja_deps
+.ninja_log
+*.vcxproj.user
