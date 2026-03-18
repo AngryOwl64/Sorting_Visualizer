@@ -1,0 +1,41 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\coding\\c\u002B\u002B\\SFML\\Visual_Sorting\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C61000A1-CB89-4081-B11E-60FAF1BEED76}|Visual_Sorting.vcxproj|D:\\coding\\c\u002B\u002B\\SFML\\Visual_Sorting\\Visual_Sorting.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{C61000A1-CB89-4081-B11E-60FAF1BEED76}|Visual_Sorting.vcxproj|solutionrelative:Visual_Sorting.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Visual_Sorting.cpp",
+              "DocumentMoniker": "D:\\coding\\c\u002B\u002B\\SFML\\Visual_Sorting\\Visual_Sorting.cpp",
+              "RelativeDocumentMoniker": "Visual_Sorting.cpp",
+              "ToolTip": "D:\\coding\\c\u002B\u002B\\SFML\\Visual_Sorting\\Visual_Sorting.cpp",
+              "RelativeToolTip": "Visual_Sorting.cpp",
+              "ViewState": "AgIAAD8AAAAAAAAAAAAAAEMAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-03-18T20:35:49.345Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
