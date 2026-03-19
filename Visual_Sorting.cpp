@@ -10,6 +10,14 @@ enum State {
 	Bogo,
 	Merge
 };
+void centerText(sf::Text& text) {
+	sf::FloatRect bounds = text.getLocalBounds();
+
+	text.setOrigin({
+		bounds.position.x + bounds.size.x / 2.f,
+		bounds.position.y + bounds.size.y / 2.f
+		});
+}
 
 int main() {
 	unsigned int height = 1080;
@@ -24,6 +32,8 @@ int main() {
 	if (!myFont.openFromFile("assets/fonts/myFont.ttf")) {
 		std::cerr << "Couldn't load assets/fonts/myFont.ttf" << std::endl;
 	}
+
+	sf::FloatRect tempRect;
 
 	//Menu
 	sf::RectangleShape bubbleRect({ width / 7.0f , 120.0f }); //1
@@ -50,6 +60,27 @@ int main() {
 	bogoRect.setOrigin({ width / 12.0f, 60.0f });
 	bogoRect.setPosition({ spacing * 5, (height / 3.0f) * 2 });
 	bogoRect.setOutlineThickness(5);
+
+	sf::Text title(myFont);
+	title.setString("SORTING ALGORITHM Visualizer"); //17 = 7
+	title.setCharacterSize(75);
+	centerText(title);
+	title.setPosition({ width / 2.0f, 200 });
+
+	sf::Text bubbleText(myFont);
+	bubbleText.setString("Bubble-Sort");
+	bubbleText.setCharacterSize(48);
+	centerText(bubbleText);
+	bubbleText.setPosition({ spacing * 0.93f , (height / 3.0f) * 2 });
+	bubbleText.setFillColor(sf::Color::Black);
+
+	sf::Text selectText(myFont);
+
+	sf::Text mergeText(myFont);
+
+	sf::Text insertText(myFont);
+
+	sf::Text bogoText(myFont);
 
 	std::vector<sf::RectangleShape*> menuRects = { &bubbleRect, &selectRect, &mergeRect, &insertRect, &bogoRect };
 
@@ -79,7 +110,7 @@ int main() {
 				}
 			}
 
-			else if (const auto* keypressed = event->getIf<sf::Event::KeyPressed>()) {
+			if (const auto* keypressed = event->getIf<sf::Event::KeyPressed>()) {
 				if (keypressed->scancode == sf::Keyboard::Scancode::Escape) {
 					window->close();
 				}
@@ -111,6 +142,8 @@ int main() {
 			window->draw(bogoRect);
 			window->draw(mergeRect);
 			window->draw(selectRect);
+			window->draw(title);
+			window->draw(bubbleText);
 		}
 
 		if (currentState == State::Bubble) {
