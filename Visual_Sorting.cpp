@@ -1,7 +1,6 @@
-#include <iostream>
-#include <SFML/Graphics.hpp>
-#include <vector>
 #include <SFML/Window.hpp>
+#include "Algorithms.h"
+#include "ArrayFunc.h"
 
 enum State {
 	Menu,
@@ -22,18 +21,21 @@ void centerText(sf::Text& text) {
 	text.setOrigin({
 		bounds.position.x + bounds.size.x / 2.f,
 		bounds.position.y + bounds.size.y / 2.f
-		});
+	});
 }
 
 int main() {
+	unsigned int frames = 30;
 	unsigned int height = 1080;
 	unsigned int width = 1920;
-	unsigned int frames = 120;
 	int selectIndex = 0;
 	float spacing = width / 6.0f;
 
 	State currentState = State::Menu;
 	Algorithm selectedAlgorithm;
+	std::vector<int> valueArray;
+	std::vector<sf::RectangleShape> visualArray;
+	int i = 0; int j = 0; bool finished = false;
 
 	std::vector<Algorithm> algos = {
 	Algorithm::Bubble,
@@ -123,6 +125,7 @@ int main() {
 
 	//Elements
 	sf::Text titleElements(myFont);
+	titleElements.setCharacterSize(96);
 	titleElements.setString("Enter the Number of Elements you want sorted:");
 	centerText(titleElements);
 	titleElements.setPosition({ width / 2.0f, height / 3.0f });
@@ -138,7 +141,6 @@ int main() {
 	inputText.setFillColor(sf::Color::Blue);
 
 	std::string inputString;
-	bool isActive = true;
 
 	sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode({ width, height  }), "Sorting Visualizer");
 	window->setFramerateLimit(frames);
@@ -150,37 +152,33 @@ int main() {
 				window->close();
 			}
 
-			if (const auto* keypressed = event->getIf<sf::Event::KeyPressed>()) {
-				if (keypressed->scancode == sf::Keyboard::Scancode::Escape) {
-					window->close();
-				}
-			}
 			if (currentState == State::Menu) {
-
+				//std::cerr << "Menu\n";
 				if (const auto* key = event->getIf<sf::Event::KeyPressed>()) {
-					if (key->scancode == sf::Keyboard::Scancode::Left) {
-						if (selectIndex > 0) {
-							selectIndex--;
-						}
-					}
-				}
+					switch (key->scancode) {
+					case sf::Keyboard::Scancode::Left:
+						if (selectIndex > 0) { selectIndex--; break; }
+						else if (selectIndex == 0) selectIndex = 4; break;
 
-				if (const auto* key = event->getIf<sf::Event::KeyPressed>()) {
-					if (key->scancode == sf::Keyboard::Scancode::Right) {
-						if (selectIndex < 4) {
-							selectIndex++;
-						}
-					}
-				}
+					case sf::Keyboard::Scancode::Right:
+						std::cout << selectIndex << std::endl;
+						if (selectIndex < 4) { selectIndex++; break; }
+						else if (selectIndex == 4) selectIndex = 0; break;
 
-				if (const auto* keypressed = event->getIf<sf::Event::KeyPressed>()) {
-					if (keypressed->scancode == sf::Keyboard::Scancode::Enter) {
-						currentState = State::Elements;
+					case sf::Keyboard::Scancode::Enter:
+						currentState = State::Elements; break;
+						std::cout << "enter\n";
+
+					case sf::Keyboard::Scancode::Escape:
+						window->close();
+						break;
+					default: break;
 					}
 				}
 			}
 
 			if (currentState == State::Elements) {
+				std::cerr << "Elements\n";
 				if (const auto* textEntered = event->getIf<sf::Event::TextEntered>()) {
 					if (textEntered->unicode == 8) { // Backspace
 						if (!inputString.empty())
@@ -195,10 +193,12 @@ int main() {
 					inputText.setString(inputString);
 				}
 
-				if (const auto* keypressed = event->getIf<sf::Event::KeyPressed>()) {
-					if (keypressed->scancode == sf::Keyboard::Scancode::Enter) {
+				else if (const auto* keypressed = event->getIf<sf::Event::KeyPressed>()) {
+					if (keypressed->scancode == sf::Keyboard::Scancode::Enter && !inputString.empty() && std::stoi(inputString) > 1) {
 						selectedAlgorithm = algos[selectIndex];
 						currentState = State::Sort;
+						valueArray = ArrayFunctions::generateArray(std::stoi(inputString));
+						visualArray = ArrayFunctions::createVisualRects(valueArray);
 					}
 				}
 			}
@@ -235,9 +235,36 @@ int main() {
 		}
 
 		if (currentState == State::Sort) {
-
+			switch (selectedAlgorithm)
+			{
+			case Bubble: 
+				SortingAlgorithms::bubbleSortStep(valueArray, i, j, finished);
+				if (!finished) {
+					ArrayFunctions::updateVisualRects(valueArray, visualArray, j);
+				} else {
+					for (auto& rect : visualArray) {
+						rect.setFillColor(sf::Color::Green);
+					}
+				}
+				for (size_t i = 0; i < valueArray.size(); i++) {
+					//std::cerr << valueArray[i] << " ";
+					window->draw(visualArray[i]);
+				} break;
+			case Select:
+				break;
+			case Merge:
+				break;
+			case Insert:
+				break;
+			case Bogo:
+				break;
+			default:
+				break;
+			}
+			if (finished) {
+				
+			}
 		}
-
 		window->display();
 	}
 	delete window;
