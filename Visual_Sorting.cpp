@@ -5,6 +5,7 @@
 enum State {
 	Menu,
 	Elements,
+	Settings,
 	Sort
 };
 enum Algorithm {
@@ -79,6 +80,11 @@ int main() {
 	bogoRect.setPosition({ spacing * 5, (height / 3.0f) * 2 });
 	bogoRect.setOutlineThickness(5);
 
+	sf::RectangleShape optionRect({ width / 7.0f, 120.0f });
+	optionRect.setOrigin({ width / 12.0f, 60.0f });
+	optionRect.setPosition({ 1750.0f, 930.0f });
+	optionRect.setOutlineThickness(5);
+
 	sf::Text title(myFont);
 	title.setString("SORTING ALGORITHM Visualizer"); //17 = 7
 	title.setCharacterSize(75);
@@ -120,8 +126,15 @@ int main() {
 	bogoText.setPosition({ spacing * 4.93f, (height / 3.0f) * 2 });
 	bogoText.setFillColor(sf::Color::Black);
 
-	std::vector<sf::RectangleShape> menuRects = { bubbleRect, selectRect, mergeRect, insertRect, bogoRect };
-	std::vector<sf::Text> menuText = { title, bubbleText, selectText, mergeText, insertText, bogoText };
+	sf::Text optionText(myFont);
+	optionText.setString("options");
+	optionText.setCharacterSize(48);
+	centerText(optionText);
+	optionText.setPosition({ 1730.0f, 930.0f });
+	optionText.setFillColor(sf::Color::Black);
+
+	std::vector<sf::RectangleShape> menuRects = { bubbleRect, selectRect, mergeRect, insertRect, bogoRect, optionRect };
+	std::vector<sf::Text> menuText = { title, bubbleText, selectText, mergeText, insertText, bogoText, optionText};
 
 	//Elements
 	sf::Text titleElements(myFont);
@@ -162,8 +175,8 @@ int main() {
 
 					case sf::Keyboard::Scancode::Right:
 						std::cout << selectIndex << std::endl;
-						if (selectIndex < 4) { selectIndex++; break; }
-						else if (selectIndex == 4) selectIndex = 0; break;
+						if (selectIndex < 5) { selectIndex++; break; }
+						else if (selectIndex == 5) selectIndex = 0; break;
 
 					case sf::Keyboard::Scancode::Enter:
 						currentState = State::Elements; break;
