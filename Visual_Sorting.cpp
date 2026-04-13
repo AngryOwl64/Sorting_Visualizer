@@ -1,6 +1,7 @@
 #include <SFML/Window.hpp>
 #include "Algorithms.h"
 #include "ArrayFunc.h"
+#include "SimpleFunctions.h"
 
 enum State {
 	Menu,
@@ -15,15 +16,6 @@ enum Algorithm {
 	Insert,
 	Bogo
 };
-
-void centerText(sf::Text& text) {
-	sf::FloatRect bounds = text.getLocalBounds();
-
-	text.setOrigin({
-		bounds.position.x + bounds.size.x / 2.f,
-		bounds.position.y + bounds.size.y / 2.f
-	});
-}
 
 int main() {
 	unsigned int frames = 30;
@@ -88,48 +80,48 @@ int main() {
 	sf::Text title(myFont);
 	title.setString("SORTING ALGORITHM Visualizer"); //17 = 7
 	title.setCharacterSize(75);
-	centerText(title);
+	simpleFuncs::centerText(title);
 	title.setPosition({ width / 2.0f, 200 });
 
 	sf::Text bubbleText(myFont);
 	bubbleText.setString("Bubble-Sort");
 	bubbleText.setCharacterSize(48);
-	centerText(bubbleText);
+	simpleFuncs::centerText(bubbleText);
 	bubbleText.setPosition({ spacing * 0.93f , (height / 3.0f) * 2 });
 	bubbleText.setFillColor(sf::Color::Black);
 
 	sf::Text selectText(myFont);
 	selectText.setString("Selection-Sort");
 	selectText.setCharacterSize(48);
-	centerText(selectText);
+	simpleFuncs::centerText(selectText);
 	selectText.setPosition({ spacing * 1.93f, (height / 3.0f) * 2 });
 	selectText.setFillColor(sf::Color::Black);
 
 	sf::Text mergeText(myFont);
 	mergeText.setString("Merge-Sort");
 	mergeText.setCharacterSize(48);
-	centerText(mergeText);
+	simpleFuncs::centerText(mergeText);
 	mergeText.setPosition({ spacing * 2.93f, (height / 3.0f) * 2 });
 	mergeText.setFillColor(sf::Color::Black);
 
 	sf::Text insertText(myFont);
 	insertText.setString("Insert-Sort");
 	insertText.setCharacterSize(48);
-	centerText(insertText);
+	simpleFuncs::centerText(insertText);
 	insertText.setPosition({ spacing * 3.93f, (height / 3.0f) * 2 });
 	insertText.setFillColor(sf::Color::Black);
 
 	sf::Text bogoText(myFont);
 	bogoText.setString("Bogo-Sort");
 	bogoText.setCharacterSize(48);
-	centerText(bogoText);
+	simpleFuncs::centerText(bogoText);
 	bogoText.setPosition({ spacing * 4.93f, (height / 3.0f) * 2 });
 	bogoText.setFillColor(sf::Color::Black);
 
 	sf::Text optionText(myFont);
 	optionText.setString("options");
 	optionText.setCharacterSize(48);
-	centerText(optionText);
+	simpleFuncs::centerText(optionText);
 	optionText.setPosition({ 1730.0f, 930.0f });
 	optionText.setFillColor(sf::Color::Black);
 
@@ -140,7 +132,7 @@ int main() {
 	sf::Text titleElements(myFont);
 	titleElements.setCharacterSize(96);
 	titleElements.setString("Enter the Number of Elements you want sorted:");
-	centerText(titleElements);
+	simpleFuncs::centerText(titleElements);
 	titleElements.setPosition({ width / 2.0f, height / 3.0f });
 	titleElements.setFillColor(sf::Color::White);
 
@@ -186,6 +178,14 @@ int main() {
 						window->close();
 						break;
 					default: break;
+					}
+				}
+			}
+
+			if (currentState == State::Settings) {
+				if (const auto* key = event->getIf<sf::Event::KeyPressed>()) {
+					switch (key->scancode) {
+
 					}
 				}
 			}
@@ -240,6 +240,9 @@ int main() {
 				window->draw(text);
 			}
 		}
+		if (currentState == State::Settings) {
+
+		}
 
 		if (currentState == State::Elements) {
 			window->draw(inputBox);
@@ -250,11 +253,12 @@ int main() {
 		if (currentState == State::Sort) {
 			switch (selectedAlgorithm)
 			{
-			case Bubble: 
+			case Bubble:
 				SortingAlgorithms::bubbleSortStep(valueArray, i, j, finished);
 				if (!finished) {
 					ArrayFunctions::updateVisualRects(valueArray, visualArray, j);
-				} else {
+				}
+				else {
 					for (auto& rect : visualArray) {
 						rect.setFillColor(sf::Color::Green);
 					}
