@@ -4,10 +4,10 @@
 #include <iostream>
 
 namespace settings {
-	void setfps(unsigned const int newFps, int& fps);
+	void setfps(unsigned const int newFps, sf::RenderWindow* window);
 	std::vector<sf::RectangleShape> createSettingsRects();
 	std::vector<sf::Text> createSettingsText();
-	void runSettings(const auto& setting);
-	void drawSettings(const auto& setting);
-	void deleteSettings(const auto& setting);
+	//void runSettings(const auto& setting);
+	//void drawSettings(const auto& setting);
+	//void deleteSettings(const auto& setting);
 }

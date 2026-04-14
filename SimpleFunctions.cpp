@@ -8,4 +8,14 @@ namespace simpleFuncs {
 			bounds.position.y + bounds.size.y / 2.f
 			});
 	}
+	void drawRects(std::vector<sf::RectangleShape> &shapes, sf::RenderWindow &window) {
+		for (const auto& shape : shapes) {
+			window.draw(shape);
+		}
+	}
+	void drawTexts(std::vector<sf::Text>& texts, sf::RenderWindow& window) {
+		for (const auto& text : texts) {
+			window.draw(text);
+		}
+	}
 }

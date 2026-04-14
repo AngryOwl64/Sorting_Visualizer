@@ -2,6 +2,7 @@
 #include "Algorithms.h"
 #include "ArrayFunc.h"
 #include "SimpleFunctions.h"
+#include "Settings.h"
 
 enum State {
 	Menu,
@@ -45,6 +46,10 @@ int main() {
 	}
 
 	sf::FloatRect tempRect;
+
+	//Settings
+	auto settingsRects = settings::createSettingsRects();
+	auto settingsText = settings::createSettingsText();
 
 	//Menu
 	sf::RectangleShape bubbleRect({ width / 7.0f , 120.0f }); //1
@@ -163,7 +168,7 @@ int main() {
 					switch (key->scancode) {
 					case sf::Keyboard::Scancode::Left:
 						if (selectIndex > 0) { selectIndex--; break; }
-						else if (selectIndex == 0) selectIndex = 4; break;
+						else if (selectIndex == 0) selectIndex = 5; break;
 
 					case sf::Keyboard::Scancode::Right:
 						std::cout << selectIndex << std::endl;
@@ -171,6 +176,9 @@ int main() {
 						else if (selectIndex == 5) selectIndex = 0; break;
 
 					case sf::Keyboard::Scancode::Enter:
+						if (selectIndex == 5) {
+							currentState = State::Settings; break;
+						}
 						currentState = State::Elements; break;
 						std::cout << "enter\n";
 
@@ -182,15 +190,29 @@ int main() {
 				}
 			}
 
-			if (currentState == State::Settings) {
+			else if (currentState == State::Settings) {
 				if (const auto* key = event->getIf<sf::Event::KeyPressed>()) {
 					switch (key->scancode) {
+					case sf::Keyboard::Scancode::Right:
+						if (selectIndex < 5) { selectIndex++; break; }
+						else if (selectIndex == 5) { selectIndex = 0; break; }
+					case sf::Keyboard::Scancode::Left:
+						if (selectIndex > 0) { selectIndex--; break; }
+						else if (selectIndex == 0) { selectIndex = 5; break; }
+					case sf::Keyboard::Scancode::Enter:
+						const unsigned fpsValues[] = { 15, 30, 60, 120, 240 };
 
+						if (selectIndex >= 1 && selectIndex <= 5) {
+							settings::setfps(fpsValues[selectIndex - 1], window);
+						}
+
+						currentState = State::Menu;
+						break;
 					}
 				}
 			}
 
-			if (currentState == State::Elements) {
+			else if (currentState == State::Elements) {
 				std::cerr << "Elements\n";
 				if (const auto* textEntered = event->getIf<sf::Event::TextEntered>()) {
 					if (textEntered->unicode == 8) { // Backspace
@@ -216,7 +238,7 @@ int main() {
 				}
 			}
 		}
-
+		std::cout << selectIndex << "\n";
 		//running
 		if (currentState == State::Menu) {
 			for (int i = 0; i < menuRects.size(); i++) {
@@ -229,19 +251,27 @@ int main() {
 			}
 		}
 
+		if (currentState == State::Settings) {
+			for (int i = 0; i < settingsRects.size(); i++) {
+				if (i == selectIndex) {
+					settingsRects[i].setOutlineColor(sf::Color::Blue);
+				}
+				else {
+					settingsRects[i].setOutlineColor(sf::Color::White);
+				}
+			}
+		}
+
 		//render
 		window->clear(sf::Color::Black);
 
 		if (currentState == State::Menu) {
-			for (sf::RectangleShape rect : menuRects) {
-				window->draw(rect);
-			}
-			for (sf::Text text : menuText) {
-				window->draw(text);
-			}
+			simpleFuncs::drawRects(menuRects, *window);
+			simpleFuncs::drawTexts(menuText, *window);
 		}
 		if (currentState == State::Settings) {
-
+			simpleFuncs::drawRects(settingsRects, *window);
+			simpleFuncs::drawTexts(settingsText, *window);
 		}
 
 		if (currentState == State::Elements) {
@@ -263,10 +293,7 @@ int main() {
 						rect.setFillColor(sf::Color::Green);
 					}
 				}
-				for (size_t i = 0; i < valueArray.size(); i++) {
-					//std::cerr << valueArray[i] << " ";
-					window->draw(visualArray[i]);
-				} break;
+				simpleFuncs::drawRects(visualArray, *window); break;
 			case Select:
 				break;
 			case Merge:
