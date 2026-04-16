@@ -9,4 +9,5 @@ namespace ArrayFunctions {
 	void shuffleArray(std::vector<int>& arr);
 	std::vector <sf::RectangleShape> createVisualRects(const std::vector<int>& arr);
 	void updateVisualRects(const std::vector<int>& arr, std::vector<sf::RectangleShape>& rects, int& j);
+	void updateVisualRectsbogo(const std::vector<int>& arr, std::vector<sf::RectangleShape>& rects); 
 }

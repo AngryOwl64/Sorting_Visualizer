@@ -237,6 +237,20 @@ int main() {
 					}
 				}
 			}
+
+			else if (currentState == State::Sort) {
+				if (const auto* key = event->getIf<sf::Event::KeyPressed>()) {
+					if (key->scancode == sf::Keyboard::Scancode::Escape){
+						currentState = Menu;
+						inputString = "";
+						visualArray.clear();
+						valueArray.clear();
+						i = 0;
+						j = 0;
+						finished = false;
+					}
+				}
+			}
 		}
 		std::cout << selectIndex << "\n";
 		//running
@@ -301,7 +315,16 @@ int main() {
 			case Insert:
 				break;
 			case Bogo:
-				break;
+				SortingAlgorithms::bogoSortStep(valueArray, finished);
+				if (!finished) {
+					ArrayFunctions::updateVisualRectsbogo(valueArray, visualArray);
+				} else {
+					for (auto& rect : visualArray) {
+						rect.setFillColor(sf::Color::Green);
+					}
+				}
+				simpleFuncs::drawRects(visualArray, *window); break;
+				
 			default:
 				break;
 			}

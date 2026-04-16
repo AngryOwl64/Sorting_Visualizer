@@ -68,4 +68,24 @@ namespace ArrayFunctions {
 
         rects[j].setFillColor(sf::Color::Red);
     }
+    void updateVisualRectsbogo(const std::vector<int>& arr, std::vector<sf::RectangleShape>& rects) {
+        if (arr.empty()) return;
+
+        float width = 1600.0f / arr.size();
+        float maxHeight = 800.0f;
+        float start = 160.0f;
+        float baseY = 1000.0f;
+
+        for (size_t i = 0; i < arr.size(); i++) {
+            float height = (arr[i] / static_cast<float>(arr.size())) * maxHeight;
+
+            rects[i].setSize({ width, height });
+            rects[i].setOrigin({ 0.f, height });
+            rects[i].setPosition({ start + i * width, baseY });
+
+            rects[i].setOutlineColor(sf::Color::Black);
+            rects[i].setOutlineThickness(2.f);
+            rects[i].setFillColor(sf::Color::White);
+        }
+    }
 }
