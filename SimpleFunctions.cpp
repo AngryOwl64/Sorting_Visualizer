@@ -18,4 +18,12 @@ namespace simpleFuncs {
 			window.draw(text);
 		}
 	}
+	void resetValues(std::vector<sf::RectangleShape>& rectArr, std::vector<int>& intArr,
+		int& i, int& j, bool& isfinished) {
+		rectArr.clear();
+		intArr.clear();
+		isfinished = false;
+		i = 0;
+		j = 0;
+	}
 }

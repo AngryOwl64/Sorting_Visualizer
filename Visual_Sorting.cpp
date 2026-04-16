@@ -242,17 +242,12 @@ int main() {
 				if (const auto* key = event->getIf<sf::Event::KeyPressed>()) {
 					if (key->scancode == sf::Keyboard::Scancode::Escape){
 						currentState = Menu;
-						inputString = "";
-						visualArray.clear();
-						valueArray.clear();
-						i = 0;
-						j = 0;
-						finished = false;
+						simpleFuncs::resetValues(visualArray, valueArray, i, j, finished);
 					}
 				}
 			}
 		}
-		std::cout << selectIndex << "\n";
+
 		//running
 		if (currentState == State::Menu) {
 			for (int i = 0; i < menuRects.size(); i++) {
